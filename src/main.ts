@@ -1,5 +1,4 @@
 import { Chunk, Effect, Stream, Option } from "effect";
-// import { type RawData, listPaginated } from "./domain";
 
 export type RawData = string;
 export class PageResult {
@@ -23,7 +22,7 @@ const finalAttempt: Stream.Stream<RawData, Error> = Stream.paginateChunkEffect(
         Chunk.range(1, PAGE_SIZE),
         (index) => `Result ${pageNumber}-${index}`
       ),
-      pageNumber === LAST_PAGE
+      pageNumber === pageNumber + 1 // THIS LINE IS THE CAUSE OF PROBLEM
     );
 
     return Effect.succeed(pageResult).pipe(
